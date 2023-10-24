@@ -1,0 +1,261 @@
+:root {
+  --black: #19171C;
+  --dark-grey: #4B4453;
+  --light-grey: #B0A8B9;
+  --primary: #845EC2;
+  --primary-dark: #6941AA;
+  --secondary: #FF5D3D;
+  --secondary-light: #FF8066;
+  --text-color: #FFF6FF;
+  --space: 16px;
+  --font-size: 18px;
+}
+
+body {
+  background-color: var(--dark-grey);
+  color: var(--text-color);
+  font-size: var(--font-size);
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  font-family: helvetica;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main,
+.post-comments {
+  width: 100%;
+}
+
+article h1 {
+  font-size: calc(var(--font-size) * 2.25)
+}
+h2 {
+  font-size: calc(var(--font-size) * 2)
+}
+h3 {
+  font-size: calc(var(--font-size) * 1.5)
+}
+
+a {
+  color: var(--secondary-light);
+  transition: color 200ms;
+}
+a:hover, a:focus {
+  color: var(--secondary);
+}
+
+button.btn {
+  border: var(--text-color);
+  border-radius: 4px;
+  background-color: var(--secondary-light);
+  padding: calc(var(--space) * .75) calc(var(--space) * 2);
+  cursor: pointer;
+  transition: background-color 200ms;
+}
+button.btn-text {
+  border: none;
+  background-color: transparent;
+  color: var(--secondary-light);
+  transition: 200ms;
+  cursor: pointer;
+}
+
+button.btn:hover,
+button.btn:focus {
+  background-color: var(--secondary);
+}
+button.btn-text:hover,
+button.btn-text:focus {
+  color: var(--secondary);
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--black);
+  margin-bottom: calc(var(--space) * 3);
+}
+header a {
+  margin: var(--space);
+}
+header .site-logo {
+  font-size: calc(var(--font-size) * 1.5);
+  margin: var(--space);
+  margin-right: auto;
+}
+.tag-message {
+  text-align: center;
+  margin-top: 0;
+  text-transform: capitalize;
+}
+article {
+  margin-bottom: calc(var(--space) * 3);
+}
+article .tags,
+article .created-at,
+article .homepage-link {
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.site-logo {
+  text-align: center;
+  color: var(--text-color);
+  text-decoration: none;
+  margin: calc(var(--space) * 4) auto;
+  display: block;
+  font-size: calc(var(--font-size) * 2.5);
+  font-weight: bold;
+}
+
+main {
+  box-sizing: border-box;
+  max-width: 960px;
+  margin: auto;
+  background-color: var(--black);
+  padding: var(--space) calc(var(--space) * 3);
+}
+
+main,
+.login-form,
+form#created-post,
+.post-comments form {
+  border-radius: 4px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--space) * 3) 0;
+}
+.login-form .login-error {
+  color: var(--secondary-light);
+}
+
+.login-form input,
+form#create-post input[type=text],
+.post-comments textarea,
+.post-comments input {
+  margin-bottom: calc(var(--space) * 2);
+  padding: calc(var(--space) * .5) calc(var(--space) * 1);
+}
+
+.post-comments {
+  max-width: 960px;
+  margin: auto;
+  margin-bottom: calc(var(--space) * 3);
+  display: flex;
+  flex-direction: column;
+}
+.post-comments h3 {
+  text-align: center;
+}
+.post-comments .comment {
+  background-color: var(--primary-dark);
+  padding:  0 var(--space) calc(var(--space) * 1.5);
+  border-radius: 4px;
+  align-self: flex-end;
+  white-space: pre-line;
+  margin: var(--space);
+}
+.post-comments .comment .comment-author {
+  white-space: nowrap;
+}
+.post-comments form {
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--space) * 2);
+}
+.post-comments label {
+  align-self: flex-start;
+}
+.post-comments textarea,
+.post-comments input {
+  box-sizing: border-box;
+  width: 100%;
+  resize: none;
+}
+.post-comments form button {
+  align-self: center;
+}
+
+.create-post-tag {
+  text-transform: capitalize;
+}
+.edit-post-link,
+.remove-btn {
+  text-decoration: none;
+  font-size: calc(var(--font-size) / 1.25);
+  white-space: nowrap;
+  margin: 0 var(--space);
+  padding: 0;
+}
+
+form#create-post {
+  font-size: var(--font-size);
+}
+form#create-post input#title {
+  box-sizing: border-box;
+  width: 100%;
+}
+form#create-post button[type=submit] {
+  display: block;
+  margin-left: auto;
+}
+form#create-post .ql-editor {
+  min-height: 40vh;
+}
+form#create-post .ql-editor p {
+  margin-block-end: 1em;
+}
+/* Styles for Quill editor toolbar*/
+form#create-post .ql-toolbar.ql-snow .ql-stroke {
+  stroke: var(--text-color);
+}
+form#create-post .ql-toolbar.ql-snow .ql-fill {
+  fill: var(--text-color);
+}
+form#create-post .ql-toolbar.ql-snow .ql-picker-label {
+  color: var(--text-color);
+}
+form#create-post .ql-toolbar.ql-snow button:hover .ql-stroke {
+  stroke: var(--secondary);
+}
+form#create-post .ql-toolbar.ql-snow button:hover .ql-fill {
+  fill: var(--secondary);
+}
+form#create-post .ql-toolbar.ql-snow .ql-picker-label:hover {
+  color: var(--secondary);
+}
+form#create-post .ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: var(--secondary);
+}
+form#create-post .ql-toolbar.ql-snow button.ql-active .ql-fill {
+  fill: var(--secondary);
+}
+
+footer {
+  text-align: center;
+  padding: calc(var(--space) * 2) 0;
+  margin-top: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .site-logo {
+    font-size: calc(var(--font-size) * 1.25);
+    margin: 0;
+  }
+  header .site-logo {
+    font-size: var(--font-size);
+  }
+  header a {
+    margin: calc(var(--space) / 2);
+  }
+}

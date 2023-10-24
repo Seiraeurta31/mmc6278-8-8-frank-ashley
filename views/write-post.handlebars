@@ -1,0 +1,64 @@
+{{> header}}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<main>
+  <form
+    id="create-post"
+    {{#if post}}
+      data-post-id="{{post._id}}"
+    {{/if}}
+    >
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" value="{{#if post}}{{post.title}}{{/if}}">
+    <!-- Create the editor container -->
+    <div id="editor">
+      {{#if post}}
+        {{{post.body}}}
+      {{/if}}
+    </div>
+    <span>Tags: </span>
+    {{#each tags}}
+      <label class="create-post-tag" for="{{this.name}}">{{this.name}}</label>
+      <input
+        type="checkbox"
+        name="tags"
+        id="{{this.name}}"
+        value="{{this._id}}"
+        {{#if this.checked}}
+          checked
+        {{/if}}
+        >
+    {{/each}}
+    <button class="btn" type="submit">Submit</button>
+  </form>
+</main>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+  const quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+
+  document.querySelector('form').onsubmit = function(e) {
+    e.preventDefault()
+    const values = {
+      title: e.target.elements.title.value,
+      body: quill.root.innerHTML,
+      tags: Array.from(e.target.elements.tags)
+        .map(tag => tag.checked && tag.value)
+        .filter(x => x)
+    }
+    const url = '/api/post' + (e.target.dataset.postId ? "/" + e.target.dataset.postId : "")
+    fetch(url, {
+      method: window.location.pathname.includes('create') ? 'POST' : 'PUT',
+      body: JSON.stringify(values),
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+    .then(res => {
+      if (res.status === 200) {
+        window.location.replace('/')
+      }
+    })
+  }
+</script>

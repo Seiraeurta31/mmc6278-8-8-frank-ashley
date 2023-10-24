@@ -1,0 +1,44 @@
+{
+  "name": "mongo_blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "DB_NAME": "mongo_blog"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "npm run mongo && nodemon index.js",
+    "test": "export NODE_ENV=test && npm run mongo && mocha **/test.js --exit $WATCH",
+    "test:watch": "export WATCH=--watch && npm test",
+    "seed": "node seed/seed.js",
+    "mongo": "npm run mongo:restart && npm run mongo:check && npm run mongo:seed",
+    "mongo:restart": "npm run mongo:stop; npm run mongo:start",
+    "mongo:start": "docker run --rm -d -p 27017:27017 --name=mongo-sandbox -e MONGO_INITDB_DATABASE=$npm_package_config_DB_NAME mongo:5",
+    "mongo:start:shell": "npm run mongo:restart && npm run mongo:check && npm run mongo:shell",
+    "mongo:stop": "docker container stop mongo-sandbox",
+    "mongo:seed": "node seed/seed.js",
+    "mongo:shell": "docker exec -it mongo-sandbox mongosh $npm_package_config_DB_NAME",
+    "mongo:check": "until docker exec mongo-sandbox mongosh --quiet --eval \"use $npm_package_config_DB_NAME;\"; do echo ...; sleep 1; done"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-mongodb-session": "^3.1.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^8.14.0",
+    "chai": "^4.3.6",
+    "jsdom": "^20.0.0",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3"
+  }
+}

@@ -1,0 +1,37 @@
+{{#if isLoggedIn}}
+  {{> header}}
+{{/if}}
+{{#unless isLoggedIn}}
+<a class="site-logo" href="/">
+  <h1>Mongo Blog 📗</h1>
+</a>
+{{#if tag}}
+  <p class="tag-message">Posts tagged "{{tag}}"</p>
+{{/if}}
+{{/unless}}
+<main>
+{{#each posts}}
+  <a href="/post/{{slug}}">
+    <h2>{{title}}</h2>
+  </a>
+  <p>
+    Posted on: {{this.createdAt}}
+    {{#if ../isLoggedIn}}
+      <a class="edit-post-link" href="/admin/edit-post/{{slug}}">Edit Post</a>
+      <button class="btn-text remove-btn" data-post-id="{{_id}}">Delete Post</button>
+    {{/if}}
+  </p>
+{{/each}}
+</main>
+<script>
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.onclick = function(e) {
+      const {postId} = e.target.dataset
+      fetch('/api/post/' + postId, {method: 'DELETE'})
+        .then(function(res) {
+          if (res.status === 200)
+            window.location.reload()
+        })
+    }
+  })
+</script>

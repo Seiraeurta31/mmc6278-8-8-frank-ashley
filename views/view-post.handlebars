@@ -1,0 +1,62 @@
+{{> header}}
+<main>
+  <article>
+    <h1>{{post.title}}</h1>
+    {{{post.body}}}
+    <p class="created-at"><em>Posted: {{post.createdAt}}</em></p>
+    {{#if post.tags}}
+    <p class="tags">
+      Tags:
+      {{#each post.tags}}
+        <a href="/?tag={{name}}">{{name}}</a>
+      {{/each}}
+    </p>
+    {{/if}}
+    <p class="homepage-link">
+      <a href="/">Homepage</a>
+    </p>
+  </article>
+</main>
+<section class="post-comments" id="comments">
+  <h3>Comments:</h3>
+  {{#each post.comments}}
+    <p class="comment">
+      {{this.body}} <em class="comment-author"> - {{this.author}} {{this.createdAt}}</em>
+      {{#if ../isLoggedIn}}
+        <button
+          class="btn-text"
+          data-comment-id="{{this._id}}"
+          data-post-id="{{../post._id}}">
+          Remove
+        </button>
+      {{/if}}
+    </p>
+  {{/each}}
+  {{#unless post.comments}}
+    <p>No comments yet</p>
+  {{/unless}}
+  <form action="/api/post/{{post._id}}/comment" method="POST">
+    <h3>Add a comment:</h3>
+    <label for="comment-author">Name</label>
+    <input type="text" name="author" id="comment-author">
+    <label for="comment-body">Comment</label>
+    <textarea name="body" id="comment-body" rows="5" required></textarea>
+    <button class="btn">Submit</button>
+  </form>
+</section>
+<script>
+  document.querySelectorAll('.post-comments .comment button').forEach(button => {
+    button.onclick = function(e) {
+      fetch(`/api/post/${e.target.dataset.postId}/comment/${e.target.dataset.commentId}`, {
+        method: 'DELETE',
+      })
+      .then(res => {
+        if (res.status === 200) {
+          const {pathname} = window.location
+          window.location.replace(pathname + '#comments')
+          window.location.reload()
+        }
+      })
+    }
+  })
+</script>

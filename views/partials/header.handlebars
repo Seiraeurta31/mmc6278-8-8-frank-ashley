@@ -1,0 +1,9 @@
+<header>
+  <a class="site-logo" href="/">
+    Mongo Blog 📗
+  </a>
+  {{#if isLoggedIn}}
+    <a href="/admin/create-post">New Post</a>
+    <a href="/api/logout">Logout</a>
+  {{/if}}
+</header>

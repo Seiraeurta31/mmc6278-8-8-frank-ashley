@@ -1,0 +1,13 @@
+{{> header}}
+<main>
+  <form class="login-form" action="/api/login" method="POST">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    {{#if error}}
+      <p class="login-error">Incorrect Username or Password</p>
+    {{/if}}
+    <button class="btn">Submit</button>
+  </form>
+</main>
