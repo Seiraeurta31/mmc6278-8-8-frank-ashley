@@ -4,7 +4,7 @@ const CommentSchema = new Schema({
 // Create an "author" property with type String and default of 'Anonymous'
 author: {
     type: String,
-    default: ("Anonymous")
+    default: 'Anonymous'
 },
 // Create a "body" property with type String and make it required
 body: {
@@ -14,7 +14,7 @@ body: {
 // Create a "createdAt" property with type Date and set default to Date.now
 createdAt: {
     type: Date,
-    default: Date.now()
+    default: Date.now
 }
 })
 
