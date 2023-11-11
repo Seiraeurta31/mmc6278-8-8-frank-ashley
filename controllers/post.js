@@ -24,7 +24,7 @@ async function create(req, res, next) {
       body, 
       tags
     })
-    res.json(post).status(200)
+    res.status(200).json(post)
   
   }catch (err) {
     res.status(500).send('Error creating post' + err.message)
@@ -118,8 +118,8 @@ async function update(req, res) {
     
     // find and update the post with the title, body, and tags
     // return the updated post as json
-    const post = await Post.findOneAndReplace(
-      {postId},
+    const post = await Post.findByIdAndUpdate(
+      postId,
       {$set: {title, body, tags}},
       {new: true}
     )
