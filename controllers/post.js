@@ -14,9 +14,7 @@ async function create(req, res, next) {
       title && 
       body 
     ))
-      return res
-        .status(400)
-        .send('Unable to creare a post')
+      return res.status(400).send('Unable to create a post')
     // create a new post using title, body, and tags
     // return the new post as json and a 200 status
     const post = await Post.create({
@@ -24,7 +22,7 @@ async function create(req, res, next) {
       body, 
       tags
     })
-    res.status(200).json(post)
+    res.status(200).json(post).send('Deleted')
   
   }catch (err) {
     res.status(500).send('Error creating post' + err.message)
@@ -40,6 +38,7 @@ async function get(req, res) {
     // find a single post by slug and populate 'tags'
     // you will need to use .lean() or .toObject()
     const post = await Post.findOneAndUpdate(slug).lean().populate('tags')
+
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
@@ -135,7 +134,7 @@ async function remove(req, res, next) {
     // delete post by id, return a 200 status
     const postId = req.params.id
     const post = await Post.findByIdAndDelete(postId)
-    res.status(200)
+    res.status(200).send('Deleted')
   } catch (err) {
     res.status(500).send('Post not found' + err.message)
   }  
