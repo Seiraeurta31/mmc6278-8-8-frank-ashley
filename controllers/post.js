@@ -11,7 +11,7 @@ async function create(req, res, next) {
     // if there is no title or body, return a 400 status
     // omitting tags is OK
     if (!(
-      title, 
+      title && 
       body 
     ))
       return res
@@ -23,7 +23,7 @@ async function create(req, res, next) {
       body, 
       tags
     })
-      res.status(200).json(post)
+      res.json(post).status(200)
   
   }catch (err) {
     res.status(500).send('Error creating post' + err.message)
@@ -38,8 +38,7 @@ async function get(req, res) {
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
     // you will need to use .lean() or .toObject()
-    const post = await Post.findOne(slug).lean()
-      .populate('tags')
+    const post = await Post.findOneAndUpdate(slug).lean().populate('tags')
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
@@ -99,31 +98,33 @@ async function getAll(req, res) {
 async function update(req, res) {
   try {
     // TODO: update a post
-    // if there is no title or body, return a 400 status
-    // omitting tags is OK
+    
     const {
       title, 
       body, 
       tags
     } = req.body
+
+    // if there is no title or body, return a 400 status
+    // omitting tags is OK
     if (!(
-      title, 
+      title && 
       body 
     ))
       return res
         .status(400)
+
     const postId = req.params.id
     
     // find and update the post with the title, body, and tags
     // return the updated post as json
-    const post = await Post.findByIdAndUpdate(
+    const post = await Post.updateOne(
       {postId},
       {$set: {title, body, tags}},
       {new: true}
     )
     res.json(post)
-  } 
-  catch(err) {
+  } catch(err) {
     res.status(500).send(err.message)
   }
 }
@@ -135,8 +136,7 @@ async function remove(req, res, next) {
     // delete post by id, return a 200 status
     const post = await Post.findByIdAndDelete(postId)
     res.status(200)
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).send('Post not found' + err.message)
   }  
 }
