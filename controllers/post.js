@@ -23,7 +23,7 @@ async function create(req, res, next) {
       body, 
       tags
     })
-      res.json(post).status(200)
+      res.status(200).json(post)
   
   }catch (err) {
     res.status(500).send('Error creating post' + err.message)
@@ -38,7 +38,8 @@ async function get(req, res) {
     // TODO: Find a single post
     // find a single post by slug and populate 'tags'
     // you will need to use .lean() or .toObject()
-    const post = await Post.findOne(slug).lean().populate('tags')
+    const post = await Post.findOne(slug).lean()
+      .populate('tags')
 
     post.createdAt = new Date(post.createdAt).toLocaleString('en-US', {
       month: '2-digit',
@@ -97,14 +98,32 @@ async function getAll(req, res) {
 
 async function update(req, res) {
   try {
-    const {title, body, tags} = req.body
-    const postId = req.params.id
     // TODO: update a post
     // if there is no title or body, return a 400 status
     // omitting tags is OK
+    const {
+      title, 
+      body, 
+      tags
+    } = req.body
+    if (!(
+      title, 
+      body 
+    ))
+      return res
+        .status(400)
+    const postId = req.params.id
+    
     // find and update the post with the title, body, and tags
     // return the updated post as json
-  } catch(err) {
+    const post = await Post.findByIdAndUpdate(
+      {postId},
+      {$set: {title, body, tags}},
+      {new: true}
+    )
+    res.json(post)
+  } 
+  catch(err) {
     res.status(500).send(err.message)
   }
 }
