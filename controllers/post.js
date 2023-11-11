@@ -10,11 +10,7 @@ async function create(req, res, next) {
     } = req.body
     // if there is no title or body, return a 400 status
     // omitting tags is OK
-    if (!(
-      title && 
-      body 
-    ))
-      return res.status(400).send('Unable to create a post')
+    if (!(title && body)) return res.status(400).send('Unable to create a post')
     // create a new post using title, body, and tags
     // return the new post as json and a 200 status
     const post = await Post.create({
@@ -106,12 +102,7 @@ async function update(req, res) {
 
     // if there is no title or body, return a 400 status
     // omitting tags is OK
-    if (!(
-      title && 
-      body 
-    ))
-      return res
-        .status(400)
+    if (!(title && body)) return res.status(400).send('Unable to create a post')
 
     const postId = req.params.id
     
