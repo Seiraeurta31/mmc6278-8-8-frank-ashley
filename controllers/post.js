@@ -98,8 +98,7 @@ async function getAll(req, res) {
 
 async function update(req, res) {
   try {
-    // TODO: update a post
-    
+    // TODO: update a post  
     const {
       title, 
       body, 
@@ -119,7 +118,7 @@ async function update(req, res) {
     
     // find and update the post with the title, body, and tags
     // return the updated post as json
-    const post = await Post.updateOne(
+    const post = await Post.findOneAndReplace(
       {postId},
       {$set: {title, body, tags}},
       {new: true}
